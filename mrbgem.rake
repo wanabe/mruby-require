@@ -82,6 +82,7 @@ MRuby::Gem::Specification.new('mruby-require') do |spec|
         end
         options = {
             :flags => [
+                linker.flags,
                 is_vc ? '/DLL' : is_mingw ? '-shared' : '-shared -fPIC',
                 (libmruby_lib_paths + (g.linker ? g.linker.library_paths : [])).flatten.map {|l| is_vc ? "/LIBPATH:#{l}" : "-L#{l}"}].flatten.join(" "),
             :outfile => sharedlib,
