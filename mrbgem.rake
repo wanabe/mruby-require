@@ -21,7 +21,7 @@ module MRuby
         end
       end
 
-      unless @bundled.empty?
+      unless !@bundled || @bundled.empty?
         puts "================================================"
           puts "     Bundled Gems:"
           @bundled.map(&:name).each do |name|
@@ -49,6 +49,7 @@ MRuby::Gem::Specification.new('mruby-require') do |spec|
     # compiled as separate objects.
     gems_uniq   = gems.uniq {|x| x.name}
     mr_position = gems_uniq.find_index {|g| g.name == "mruby-require"}
+    next unless mr_position
     compiled_in = gems_uniq[0..mr_position].map {|g| g.name}
     @bundled    = gems_uniq.reject {|g| compiled_in.include?(g.name) or g.name == 'mruby-require'}
     gems.reject! {|g| !compiled_in.include?(g.name)}
